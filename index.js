@@ -3,7 +3,13 @@ const cors = require('cors');
 var app = express();
 
 //middlewares
-app.use(cors({ origin: '*' }));
+const corsConfig = {
+  origin: "*",
+  credential: true,
+  methods: ["GET","POST","PUT","DELETE"],
+};
+app.options("",cors(corsConfig));
+app.use(cors(corsConfig));
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
