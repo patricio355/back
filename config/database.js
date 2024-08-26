@@ -1,23 +1,18 @@
-module.exports = {
-  "development": {
-    "username": "u33xpyxgrn7fpo2b",
-    "password": "o8DRpCJt7ct7Tlbf2pEW",
-    "database": "bo007pf6sluewa6as4nb",
-    "host": "bo007pf6sluewa6as4nb-mysql.services.clever-cloud.com",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
-}
+const mysql = require('mysql2')
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOST, 
+    user: process.env.DB_USERNAME, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DBNAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+pool.getConnection((err, conn) => {
+    if(err) console.log(err)
+    console.log("Connected successfully")
+})
+
+module.exports = pool.promise()
